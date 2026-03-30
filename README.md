@@ -1,5 +1,3 @@
-# Charity: water Game Prototype
+# Charity: water Game
 
-In this project, you’ll begin transforming your game concept from last week into a working interactive prototype using HTML, CSS, and JavaScript.
-
-This first version should focus on core functionality — clickable elements, score tracking, and a basic layout. The goal is to bring your idea to life with simple, working mechanics that you’ll refine and expand in the next milestone.
+This game involved the user having to type out the words inside of the dirty water drops to destory them. You earn points based on the number of clean drops that make it into the jerry, and lose points for every dirty drop that hits the jerry
