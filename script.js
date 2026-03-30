@@ -15,6 +15,7 @@ const dropsLayer = document.getElementById('drops-layer');
 const jerryCan = document.getElementById('jerry-can');
 const wordInput = document.getElementById('word-input');
 const typingForm = document.getElementById('typing-form');
+const resetGameButton = document.getElementById('reset-game-btn');
 
 const wordBank = [
 	'water',
@@ -53,6 +54,7 @@ let activeDrops = [];
 let spawnIntervalId = null;
 let gameLoopIntervalId = null;
 let countdownIntervalId = null;
+let isGameRunning = false;
 
 showSetupButton.addEventListener('click', () => {
 	startScreen.classList.add('hidden');
@@ -81,6 +83,10 @@ beginGameButton.addEventListener('click', () => {
 	startGame();
 });
 
+resetGameButton.addEventListener('click', () => {
+	resetGameToSetup();
+});
+
 typingForm.addEventListener('submit', (event) => {
 	event.preventDefault();
 
@@ -101,10 +107,30 @@ typingForm.addEventListener('submit', (event) => {
 	wordInput.value = '';
 });
 
+// Keep focus on the typing box while the game is active.
+wordInput.addEventListener('blur', () => {
+	if (!isGameRunning) {
+		return;
+	}
+
+	setTimeout(() => {
+		if (isGameRunning && document.activeElement !== resetGameButton) {
+			wordInput.focus();
+		}
+	}, 0);
+});
+
+gameArea.addEventListener('click', () => {
+	if (isGameRunning) {
+		wordInput.focus();
+	}
+});
+
 function startGame() {
 	score = 0;
 	timeLeft = selectedTime;
 	activeDrops = [];
+	isGameRunning = true;
 	dropsLayer.innerHTML = '';
 	updateScore();
 	updateTime();
@@ -215,9 +241,7 @@ function updateTime() {
 }
 
 function endGame() {
-	clearInterval(spawnIntervalId);
-	clearInterval(gameLoopIntervalId);
-	clearInterval(countdownIntervalId);
+	stopGameLoops();
 
 	activeDrops.forEach((drop) => drop.element.remove());
 	activeDrops = [];
@@ -226,4 +250,23 @@ function endGame() {
 
 	gameScreen.classList.add('hidden');
 	startScreen.classList.remove('hidden');
+}
+
+function resetGameToSetup() {
+	stopGameLoops();
+	activeDrops.forEach((drop) => drop.element.remove());
+	activeDrops = [];
+	dropsLayer.innerHTML = '';
+	wordInput.value = '';
+
+	gameScreen.classList.add('hidden');
+	setupScreen.classList.remove('hidden');
+	wordInput.blur();
+}
+
+function stopGameLoops() {
+	clearInterval(spawnIntervalId);
+	clearInterval(gameLoopIntervalId);
+	clearInterval(countdownIntervalId);
+	isGameRunning = false;
 }

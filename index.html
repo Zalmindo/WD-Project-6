@@ -13,6 +13,10 @@
             <h1>charity: water Drop Defender</h1>
             <p>Type words to destroy dirty drops and protect the clean water.</p>
             <button id="show-setup-btn" class="btn">Start</button>
+            <footer class="home-footer" aria-label="charity water links">
+                <a href="https://www.charitywater.org/" target="_blank" rel="noopener noreferrer">charity: water website</a>
+                <a href="https://www.charitywater.org/donate" target="_blank" rel="noopener noreferrer">Donate</a>
+            </footer>
         </section>
 
         <section id="setup-screen" class="panel hidden">
@@ -59,7 +63,10 @@
 
             <form id="typing-form" autocomplete="off">
                 <label for="word-input">Type the dirty drop word:</label>
-                <input id="word-input" type="text" placeholder="Type and press Enter" />
+                <div class="typing-controls">
+                    <input id="word-input" type="text" placeholder="Type and press Enter" />
+                    <button id="reset-game-btn" type="button" class="btn btn-reset">Reset</button>
+                </div>
             </form>
         </section>
     </main>
